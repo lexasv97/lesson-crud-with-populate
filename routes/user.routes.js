@@ -38,6 +38,25 @@ router.get("/users", (req, res) => {
     .catch((err) => console.log(`Error while getting users from the DB: ${err}`));
 });
 
+router.get('/posts/:userId', (req,res,next) => {
+
+let {userId} = req.params
+
+User.findById(userId)
+.populate('posts')
+.then(foundUser => {
+  console.log('Found user: ', foundUser)
+  res.render('posts/user-posts.hbs', foundUser)
+})
+.catch(err => {
+  console.log(err)
+  next(err)
+})
+
+
+
+})
+
 // ****************************************************************************************
 // GET details of a specific user (primarily their posts)
 // ****************************************************************************************
